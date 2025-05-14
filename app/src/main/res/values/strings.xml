@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">MinovePole</string>
+    <string name="app_title">Mínové Pole</string>
 </resources>
