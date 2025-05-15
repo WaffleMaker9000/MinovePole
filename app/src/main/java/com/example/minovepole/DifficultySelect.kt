@@ -101,35 +101,3 @@ fun DifficultyScreen(
         }
     }
 }
-
-@Composable
-fun DifficultyButtons(
-    options: List<DifficultyOption>,
-    selectedOption: DifficultyOption,
-    onOptionSelected: (DifficultyOption) -> Unit
-) {
-    Row (
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        options.forEach { option ->
-            Button(
-                onClick = {onOptionSelected(option)},
-                colors = if (option == selectedOption) {
-                    ButtonDefaults.buttonColors(containerColor = Color.DarkGray)
-                } else {
-                    ButtonDefaults.buttonColors(containerColor = Color.Gray)
-                }
-            ) {
-                Text(text = stringResource(id = option.labelResId), color = Color.White)
-            }
-        }
-    }
-}
-
-enum class DifficultyOption(@StringRes val labelResId: Int) {
-    EASY(R.string.easy_option),
-    MEDIUM(R.string.medium_option),
-    HARD(R.string.hard_option)
-}
-
