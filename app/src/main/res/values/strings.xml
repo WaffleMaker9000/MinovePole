@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">MinovePole</string>
     <string name="app_title">Mínové Pole</string>
+    <string name="select_diff">Vyber Obtiažnosť</string>
+    <string name="mine_diff">Počet Mín</string>
+    <string name="size_diff">Veľkosť Poľa</string>
+    <string name="easy_option">Ľahká</string>
+    <string name="medium_option">Stredná</string>
+    <string name="hard_option">Ťažká</string>
+    <string name="confirm">Potvrdiť</string>
 </resources>
