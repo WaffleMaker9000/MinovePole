@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -131,7 +132,7 @@ fun LeaderBoard (
             LazyColumn (
                 modifier = Modifier.fillMaxWidth().weight(20f)
             ) {
-                items(scores) { score ->
+                itemsIndexed(scores) { index, score ->
                     Card (
                         modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
                         colors = CardDefaults.cardColors(containerColor = Color.Gray)
@@ -141,7 +142,7 @@ fun LeaderBoard (
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                text = "1",
+                                text = "${index + 1}",
                                 textAlign = TextAlign.Start,
                                 color = Color.White,
                             )
