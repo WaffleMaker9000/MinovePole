@@ -4,10 +4,10 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -58,11 +58,12 @@ fun DifficultyScreen(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(modifier = Modifier.weight(0.5f))
             Text(
                 text = stringResource(R.string.select_diff),
                 style = MaterialTheme.typography.headlineLarge,
-
             )
+            Spacer(modifier = Modifier.weight(1f))
             Text(
                 text = stringResource(R.string.mine_diff),
                 style = MaterialTheme.typography.headlineSmall,
@@ -73,6 +74,7 @@ fun DifficultyScreen(
                 selectedOption = mineDifficultySelected,
                 onOptionSelected = onMineDifficultySelected
             )
+            Spacer(modifier = Modifier.weight(0.5f))
             Text(
                 text = stringResource(R.string.size_diff),
                 style = MaterialTheme.typography.headlineSmall,
@@ -83,6 +85,7 @@ fun DifficultyScreen(
                 selectedOption = sizeDifficultySelected,
                 onOptionSelected = onSizeDifficultySelected
             )
+            Spacer(modifier = Modifier.weight(0.5f))
             Button(
                 onClick = onConfirm,
                 modifier = Modifier
@@ -92,6 +95,7 @@ fun DifficultyScreen(
             ) {
                 Text(text = stringResource(R.string.confirm))
             }
+            Spacer(modifier = Modifier.weight(0.5f))
         }
     }
 }
