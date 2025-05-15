@@ -23,6 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.font.FontWeight
 
 @Preview (showBackground = true)
 @Composable
@@ -62,6 +63,7 @@ fun DifficultyScreen(
             Text(
                 text = stringResource(R.string.select_diff),
                 style = MaterialTheme.typography.headlineLarge,
+                fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
@@ -93,7 +95,7 @@ fun DifficultyScreen(
                     .padding(top = 32.dp),
                 colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
             ) {
-                Text(text = stringResource(R.string.confirm))
+                Text(text = stringResource(R.string.confirm), color = Color.White)
             }
             Spacer(modifier = Modifier.weight(0.5f))
         }
@@ -119,7 +121,7 @@ fun DifficultyButtons(
                     ButtonDefaults.buttonColors(containerColor = Color.Gray)
                 }
             ) {
-                Text(text = stringResource(id = option.labelResId))
+                Text(text = stringResource(id = option.labelResId), color = Color.White)
             }
         }
     }
