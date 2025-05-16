@@ -38,11 +38,6 @@ fun LeaderBoardPreview (
     LeaderBoard()
 }
 
-data class Score (
-    val name: String,
-    val time: Int
-)
-
 @Composable
 fun LeaderBoard (
 

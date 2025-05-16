@@ -37,9 +37,3 @@ fun DifficultyButtons(
         }
     }
 }
-
-enum class DifficultyOption(@StringRes val labelResId: Int) {
-    EASY(R.string.easy_option),
-    MEDIUM(R.string.medium_option),
-    HARD(R.string.hard_option)
-}
