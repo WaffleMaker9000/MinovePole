@@ -10,8 +10,8 @@ fun generateMines(grid: List<List<Square>>, count: Int) {
         val mineX = (0 until x).random()
         val mineY = (0 until y).random()
 
-        if (!grid[x][y].isMine) {
-            grid[x][y].isMine = true
+        if (!grid[mineX][mineY].isMine) {
+            grid[mineX][mineY].isMine = true
             placed++
         }
     }
@@ -25,8 +25,8 @@ fun calculateSurrounding(grid: List<List<Square>>) {
         for(currY in 0 until y) {
             var number = 0
 
-            for (adjX in -1 until 1) {
-                for (adjY in -1 until 1) {
+            for (adjX in -1..1) {
+                for (adjY in -1..1) {
                     if (adjX == 0 && adjY == 0) continue
 
                     val checkX = adjX + currX
