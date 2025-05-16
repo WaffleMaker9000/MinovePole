@@ -8,4 +8,10 @@
     <string name="medium_option">Stredná</string>
     <string name="hard_option">Ťažká</string>
     <string name="confirm">Potvrdiť</string>
+    <string name="leaderboard_title">Rekordy</string>
+    <string name="csv_name">Name</string>
+    <string name="csv_time">Time</string>
+    <string name="csv">scores.csv</string>
+    <string name="csv_mines">Mines</string>
+    <string name="csv_size">Size</string>
 </resources>
