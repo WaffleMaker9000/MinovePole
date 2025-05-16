@@ -11,6 +11,7 @@ import com.example.minovepole.ui.theme.MinovePoleTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        generateTestScores(this)
         enableEdgeToEdge()
         setContent {
             MinovePoleTheme {

@@ -23,18 +23,10 @@ data class Score (
 )
 
 fun saveScore(context: Context, score: Score) {
-    val file = File(context.filesDir, R.string.csv.toString())
+    val file = File(context.filesDir, context.getString(R.string.csv))
     val csvWriter = CsvWriter()
 
     csvWriter.open(file, append = true) {
-        if (!file.exists() || file.length() == 0L) {
-            writeRow(listOf(
-                R.string.csv_name.toString(),
-                R.string.csv_time.toString(),
-                R.string.csv_mines.toString(),
-                R.string.csv_size.toString()
-            ))
-        }
         writeRow(listOf(
             score.name,
             score.time.toString(),
@@ -45,13 +37,13 @@ fun saveScore(context: Context, score: Score) {
 }
 
 fun readScores(context: Context): List<Score> {
-    val file = File(context.filesDir, R.string.csv.toString())
+    val file = File(context.filesDir, context.getString(R.string.csv))
     if (!file.exists() || file.length() == 0L) return emptyList()
     return CsvReader().readAll(file).mapNotNull { score ->
         val name = score.getOrNull(0)
         val time = score.getOrNull(1)
         val mineDifficulty = score.getOrNull(2)
-        val sizeDifficulty = score.getOrNull(2)
+        val sizeDifficulty = score.getOrNull(3)
         if (name != null && time != null && mineDifficulty != null && sizeDifficulty != null)
             Score(
                 name,
@@ -60,4 +52,18 @@ fun readScores(context: Context): List<Score> {
                 DifficultyOption.entries[sizeDifficulty.toInt()]
             ) else null
     }.sortedBy { it.time }
+}
+
+fun generateTestScores(context: Context) {
+    val testScores = listOf(
+        Score("Gobsmasha", 20, DifficultyOption.EASY, DifficultyOption.EASY),
+        Score("Grotsnik", 40, DifficultyOption.EASY, DifficultyOption.EASY),
+        Score("Wazzdakka", 35, DifficultyOption.MEDIUM, DifficultyOption.HARD),
+        Score("Big Mek", 50, DifficultyOption.HARD, DifficultyOption.HARD),
+        Score("Waffle", 10, DifficultyOption.MEDIUM, DifficultyOption.MEDIUM)
+    )
+
+    for (score in testScores) {
+        saveScore(context, score)
+    }
 }
