@@ -35,12 +35,18 @@ fun AppNavGraph(navController: NavHostController) {
                 onMineDifficultySelected = { mineDifficultySelected = it },
                 sizeDifficultySelected = sizeDifficultySelected,
                 onSizeDifficultySelected = { sizeDifficultySelected = it},
-                onConfirm = {}
+                onConfirm = {
+                    navController.navigate("game")
+                }
             )
         }
 
         composable("leaderboard") {
             LeaderBoard(context = LocalContext.current)
+        }
+
+        composable("game") {
+            Game()
         }
     }
 }

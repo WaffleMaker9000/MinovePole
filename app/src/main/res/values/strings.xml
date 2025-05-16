@@ -14,4 +14,5 @@
     <string name="csv">scores.csv</string>
     <string name="csv_mines">Mines</string>
     <string name="csv_size">Size</string>
+    <string name="timer">Čas</string>
 </resources>
