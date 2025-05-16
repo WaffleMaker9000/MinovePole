@@ -1,10 +1,12 @@
 package com.example.minovepole
 
+import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHost
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -20,6 +22,9 @@ fun AppNavGraph(navController: NavHostController) {
             MainMenu(
                 onPlayClick = {
                     navController.navigate("difficulty")
+                },
+                onLeaderBoardClick = {
+                    navController.navigate("leaderboard")
                 }
             )
         }
@@ -32,6 +37,10 @@ fun AppNavGraph(navController: NavHostController) {
                 onSizeDifficultySelected = { sizeDifficultySelected = it},
                 onConfirm = {}
             )
+        }
+
+        composable("leaderboard") {
+            LeaderBoard(context = LocalContext.current)
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.example.minovepole
 
+import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -29,22 +31,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-@Preview (showBackground = true)
-@Composable
-fun LeaderBoardPreview (
-
-) {
-    LeaderBoard()
-}
-
-data class Score (
-    val name: String,
-    val time: Int
-)
-
 @Composable
 fun LeaderBoard (
-
+    context: Context
 ) {
     Surface (
         modifier = Modifier.fillMaxSize(),
@@ -53,14 +42,10 @@ fun LeaderBoard (
         var mineDifficultySelected by remember { mutableStateOf(DifficultyOption.MEDIUM) }
         var sizeDifficultySelected by remember { mutableStateOf(DifficultyOption.MEDIUM) }
 
-        val scores = remember {
-            listOf(
-                Score("Waffl", 42),
-                Score("Tom", 55),
-                Score("Yusuf", 60),
-                Score("Ghazghkhull", 75),
-                Score("Balal", 80),
-            ).sortedBy { it.time }
+        val allScores = remember { readScores(context) }
+
+        val selectedScores = allScores.filter {
+            it.mineDifficulty == mineDifficultySelected && it.sizeDifficulty == sizeDifficultySelected
         }
 
         Column (
@@ -131,7 +116,7 @@ fun LeaderBoard (
             LazyColumn (
                 modifier = Modifier.fillMaxWidth().weight(20f)
             ) {
-                items(scores) { score ->
+                itemsIndexed(selectedScores) { index, score ->
                     Card (
                         modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
                         colors = CardDefaults.cardColors(containerColor = Color.Gray)
@@ -141,7 +126,7 @@ fun LeaderBoard (
                             horizontalArrangement = Arrangement.SpaceBetween
                         ) {
                             Text(
-                                text = "1",
+                                text = "${index + 1}",
                                 textAlign = TextAlign.Start,
                                 color = Color.White,
                             )

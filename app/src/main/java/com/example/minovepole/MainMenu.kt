@@ -28,7 +28,8 @@ import com.example.minovepole.ui.theme.MinovePoleTheme
 @Composable
 fun MainMenu(
     modifier: Modifier = Modifier,
-    onPlayClick: () -> Unit = {}
+    onPlayClick: () -> Unit = {},
+    onLeaderBoardClick: () -> Unit = {}
 ) {
     Surface (
         modifier = modifier
@@ -81,6 +82,7 @@ fun MainMenu(
                         contentDescription = "Leaderboards Button",
                         modifier = modifier
                             .size(buttonSize)
+                            .clickable { onLeaderBoardClick() }
                     )
                 }
 
