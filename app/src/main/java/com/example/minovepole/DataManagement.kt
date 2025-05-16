@@ -22,6 +22,13 @@ data class Score (
     val sizeDifficulty: DifficultyOption
 )
 
+data class Square (
+    var isMine: Boolean = false,
+    var isClicked: Boolean = false,
+    var isFlagged: Boolean = false,
+    var number: Int = 0
+)
+
 fun saveScore(context: Context, score: Score) {
     val file = File(context.filesDir, context.getString(R.string.csv))
     val csvWriter = CsvWriter()
