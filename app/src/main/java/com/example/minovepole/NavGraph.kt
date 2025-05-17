@@ -1,13 +1,12 @@
 package com.example.minovepole
 
-import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.NavHost
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -46,7 +45,12 @@ fun AppNavGraph(navController: NavHostController) {
         }
 
         composable("game") {
-            Game()
+            val x = 4 + (sizeDifficultySelected.ordinal * 2)
+            val mineCount = 6 + ((mineDifficultySelected.ordinal + sizeDifficultySelected.ordinal) * 2)
+
+            val viewModel: GameViewModel = viewModel()
+
+            Game(x = x, y = x * 2, mineCount = mineCount, viewModel = viewModel)
         }
     }
 }
