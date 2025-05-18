@@ -19,6 +19,8 @@ class GameViewModel : ViewModel() {
     val time: State<Int> = _time
     private var timerJob: Job? = null
 
+    private var _isStarted = false
+
     private val _grid = mutableStateOf<List<List<Square>>>(emptyList())
     val grid: State<List<List<Square>>> = _grid
 
@@ -46,6 +48,10 @@ class GameViewModel : ViewModel() {
     }
 
     fun startGame(mineDiff: Int, sizeDiff: Int) {
+        if (_isStarted) return
+
+        _isStarted = true
+
         _mineDiff = mineDiff
         _sizeDiff = sizeDiff
 
@@ -97,5 +103,10 @@ class GameViewModel : ViewModel() {
             sizeDifficulty = DifficultyOption.entries[_sizeDiff]
         )
         com.minovepole.data.saveScore(context = context, score = score)
+    }
+
+    fun restartGame(mineDiff: Int, sizeDiff: Int) {
+        _isStarted = false
+        startGame(mineDiff, sizeDiff)
     }
 }

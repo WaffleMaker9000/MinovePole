@@ -144,7 +144,7 @@ fun Game (
         LosePopUp(
             onMenuClick = onMenuClick,
             onRetryClick =  {
-                viewModel.startGame(
+                viewModel.restartGame(
                     mineDiff = mineDiff,
                     sizeDiff = sizeDiff
                 )
