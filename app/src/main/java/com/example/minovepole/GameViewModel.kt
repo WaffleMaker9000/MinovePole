@@ -59,27 +59,6 @@ class GameViewModel : ViewModel() {
         startTimer()
     }
 
-    private fun revealSquares(original: List<List<Square>>, x: Int, y: Int): List<List<Square>> {
-        if (x !in original.indices || y !in original[0].indices) return original
-        if (original[x][y].isClicked || original[x][y].isFlagged) return original
-        var updatedGrid = original.mapIndexed { currX, col ->
-            col.mapIndexed{ currY, square ->
-                if (currX == x && currY == y) square.copy(isClicked = true) else square
-            }
-        }
-
-        if (updatedGrid[x][y].number > 0) return updatedGrid
-
-        for (adjX in -1..1) {
-            for (adjY in -1..1) {
-                if (adjX == 0 && adjY == 0) continue
-                updatedGrid = revealSquares(updatedGrid, x + adjX, y + adjY)
-            }
-        }
-
-        return updatedGrid
-    }
-
     fun onSquareClick(x: Int, y: Int) {
         if (_grid.value[x][y].isFlagged || isGameOver.value) return
         _grid.value = revealSquares(grid.value, x, y)
@@ -115,6 +94,6 @@ class GameViewModel : ViewModel() {
             mineDifficulty = DifficultyOption.entries[_mineDiff],
             sizeDifficulty = DifficultyOption.entries[_sizeDiff]
         )
-        com.example.minovepole.saveScore(context = context, score = score)
+        saveScore(context = context, score = score)
     }
 }

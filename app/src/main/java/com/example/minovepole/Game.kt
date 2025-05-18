@@ -169,7 +169,7 @@ fun LosePopUp(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "You Lose",
+                    text = stringResource(R.string.lose),
                     style = MaterialTheme.typography.headlineLarge,
                     color = Color.Red,
                     fontWeight = FontWeight.Bold
@@ -183,7 +183,7 @@ fun LosePopUp(
                         colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray)
                     ) {
                         Text(
-                            text = "Menu",
+                            text = stringResource(R.string.menu),
                             color = Color.White
                         )
                     }
@@ -192,7 +192,7 @@ fun LosePopUp(
                         colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
                     ) {
                         Text(
-                            text = "Retry",
+                            text = stringResource(R.string.retry),
                             color = Color.White
                         )
                     }
@@ -224,14 +224,14 @@ fun WinPopUp(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "You Win!",
+                    text = stringResource(R.string.win),
                     style = MaterialTheme.typography.headlineMedium,
                     color = Color.Yellow
                 )
                 TextField(
                     value = name,
                     onValueChange = { name = it },
-                    label = { Text("Your Name") },
+                    label = { Text(stringResource(R.string.name)) },
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.LightGray,
                         unfocusedContainerColor = Color.Gray,
@@ -251,7 +251,7 @@ fun WinPopUp(
                         colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray)
                     ) {
                         Text(
-                            text = "Menu",
+                            text = stringResource(R.string.menu),
                             color = Color.White
                         )
                     }
@@ -263,7 +263,7 @@ fun WinPopUp(
                         colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
                     ) {
                         Text(
-                            text = "Save Score",
+                            text = stringResource(R.string.save_score),
                             color = Color.White
                         )
                     }
@@ -321,11 +321,11 @@ fun SquareUI(
     }
 
     val text = when {
-        square.isFlagged -> "🚩"
-        !square.isClicked -> " "
-        square.isMine -> "💣"
+        square.isFlagged -> stringResource(R.string.flag)
+        !square.isClicked -> stringResource(R.string.empty)
+        square.isMine -> stringResource(R.string.bomb)
         square.number > 0 -> square.number.toString()
-        else -> " "
+        else -> stringResource(R.string.empty)
     }
 
     Box (

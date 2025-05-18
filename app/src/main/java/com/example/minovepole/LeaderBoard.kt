@@ -96,19 +96,19 @@ fun LeaderBoard (
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Placed",
+                    text = stringResource(R.string.placed),
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Start
                 )
                 Text(
-                    text = "Player",
+                    text = stringResource(R.string.player),
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.Center
                 )
                 Text(
-                    text = "Time",
+                    text = stringResource(R.string.time),
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
                     textAlign = TextAlign.End
@@ -157,7 +157,7 @@ fun LeaderBoard (
                         allScores = emptyList()
                     }
                 ) {
-                    Text(text = "Clear Data")
+                    Text(text = stringResource(R.string.clear))
                 }
             }
         }
