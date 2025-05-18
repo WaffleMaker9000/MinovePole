@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.rememberNavController
+import com.minovepole.data.generateTestScores
 import com.minovepole.navigation.AppNavGraph
 import com.minovepole.sound.SoundManager
 import com.minovepole.ui.theme.MinovePoleTheme

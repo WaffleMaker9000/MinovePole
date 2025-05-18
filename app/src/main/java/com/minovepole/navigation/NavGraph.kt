@@ -3,22 +3,17 @@ package com.minovepole.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.minovepole.logic.GameViewModel
-import com.minovepole.data.DifficultyOption
 import com.minovepole.logic.DifficultySelectViewModel
 import com.minovepole.ui.DifficultyScreen
 import com.minovepole.ui.Game
 import com.minovepole.ui.LeaderBoard
 import com.minovepole.ui.MainMenu
-import kotlinx.coroutines.flow.collect
 
 /**
  * Defines the navigation graph for the application
