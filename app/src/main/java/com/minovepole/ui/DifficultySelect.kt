@@ -1,9 +1,7 @@
-package com.example.minovepole
+package com.minovepole.ui
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -24,7 +22,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.text.font.FontWeight
+import com.example.minovepole.R
+import com.minovepole.data.DifficultyOption
 
+/**
+ * A preview of the DifficultyScreen Composable.
+ *
+ * Used for layout inspection in Android Studio
+ */
 @Preview (showBackground = true)
 @Composable
 fun DifficultyScreenPreview(){
@@ -40,6 +45,21 @@ fun DifficultyScreenPreview(){
     )
 }
 
+/**
+ * Displays a difficulty selection screen for the player to choose game parameters.
+ *
+ * This screen allows the user to select:
+ * - The mine difficulty, which controls how many mines appear.
+ * - The size difficulty, which determines the minefield dimensions.
+ *
+ * The confirmation button sends the user to the game screen with the selected difficulty
+ *
+ * @param mineDifficultySelected The currently selected mine difficulty.
+ * @param onMineDifficultySelected Callback invoked when mine difficulty changes.
+ * @param sizeDifficultySelected The currently selected size difficulty.
+ * @param onSizeDifficultySelected Callback invoked when size difficulty changes.
+ * @param onConfirm Called when the user presses the "Confirm" button.
+ */
 @Composable
 fun DifficultyScreen(
     mineDifficultySelected: DifficultyOption,
@@ -60,12 +80,15 @@ fun DifficultyScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.weight(0.5f))
+            // Title
             Text(
                 text = stringResource(R.string.select_diff),
                 style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.weight(1f))
+
+            // Mine difficulty selection
             Text(
                 text = stringResource(R.string.mine_diff),
                 style = MaterialTheme.typography.headlineSmall,
@@ -77,6 +100,8 @@ fun DifficultyScreen(
                 onOptionSelected = onMineDifficultySelected
             )
             Spacer(modifier = Modifier.weight(0.5f))
+
+            // Size difficulty selection
             Text(
                 text = stringResource(R.string.size_diff),
                 style = MaterialTheme.typography.headlineSmall,
@@ -88,6 +113,8 @@ fun DifficultyScreen(
                 onOptionSelected = onSizeDifficultySelected
             )
             Spacer(modifier = Modifier.weight(0.5f))
+
+            // Confirm button
             Button(
                 onClick = onConfirm,
                 modifier = Modifier

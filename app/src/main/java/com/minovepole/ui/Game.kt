@@ -1,4 +1,4 @@
-package com.example.minovepole
+package com.minovepole.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -23,9 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,8 +38,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.minovepole.R
+import com.minovepole.logic.GameViewModel
+import com.minovepole.sound.SoundManager
+import com.minovepole.data.Square
 
+/**
+ * Preview composable that is used to inspect the layout in Android Studio
+ *
+ * Provides the GridUI composable a mock minefield to display.
+ *
+ * This is technically duplicate code, but the Game composable needs a viewmodel, and this was
+ * the simplest way i could think of to preview it
+ */
 @Preview (showBackground = true)
 @Composable
 fun GamePreview () {
@@ -84,6 +93,19 @@ fun GamePreview () {
     }
 }
 
+
+/**
+ * Composable that displays the game screen, with a timer, the minefield, and popups for
+ * winning and losing
+ *
+ * @param sizeDiff Size difficulty selected in the difficulty select screen
+ * @param mineDiff Mine difficulty selected in the difficulty select screen
+ * @param viewModel The game's view model, tracks the game state
+ * @param onMenuClick Callback that is called when the menu button is clicked,
+ *  * sends player to the menu screen
+ * @param onLeaderBoardClick Callback that is called when the save button is clicked,
+ * sends player to the leaderboards screen
+ */
 @Composable
 fun Game (
     sizeDiff: Int,
@@ -92,11 +114,13 @@ fun Game (
     onMenuClick: () -> Unit,
     onLeaderBoardClick: () -> Unit
 ) {
+    // State trackers
     val time by viewModel.time
     val grid by viewModel.grid
     val isWin by viewModel.isWin
     val isGameOver by viewModel.isGameOver
 
+    // Generate the minefield and start the game before composition
     LaunchedEffect(Unit) {
         viewModel.startGame(
             mineDiff = mineDiff,
@@ -113,6 +137,7 @@ fun Game (
             modifier = Modifier.fillMaxSize()
         ) {
             Spacer(modifier = Modifier.size(35.dp))
+            // Time display
             Text(
                 text = stringResource(R.string.timer),
                 fontWeight = FontWeight.Bold
@@ -123,6 +148,8 @@ fun Game (
                 fontWeight = FontWeight.Bold,
                 color = Color.Black
             )
+
+            // Displays minefield, if there is a minefield. The condition prevents crashing
             if (grid.isNotEmpty() && grid[0].isNotEmpty()) {
                 GridUI(
                     grid = grid,
@@ -132,6 +159,8 @@ fun Game (
             }
         }
     }
+
+    // Displays the win pop up
     if (isWin) {
         WinPopUp(
             onMenuClick = onMenuClick,
@@ -139,11 +168,13 @@ fun Game (
             viewModel = viewModel
         )
     }
+
+    // Displays the lose popup
     if (isGameOver && !isWin) {
         LosePopUp(
             onMenuClick = onMenuClick,
             onRetryClick =  {
-                viewModel.startGame(
+                viewModel.restartGame(
                     mineDiff = mineDiff,
                     sizeDiff = sizeDiff
                 )
@@ -152,14 +183,24 @@ fun Game (
     }
 }
 
+/**
+ * Composable that pops up when a mine is blown up
+ *
+ * Plays the explosion sound
+ *
+ * @param onMenuClick Callback that is called when the menu button is clicked
+ * @param onRetryClick Callback that is called when the retry button is clicked
+ */
 @Composable
 fun LosePopUp(
     onMenuClick: () -> Unit,
     onRetryClick: () -> Unit
 ) {
+    // Play explosion sound
     SoundManager.playExplosionSound()
 
     Dialog(
+        // Undismissable
         onDismissRequest = {}
     ) {
         Surface(
@@ -170,6 +211,7 @@ fun LosePopUp(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                // Title
                 Text(
                     text = stringResource(R.string.lose),
                     style = MaterialTheme.typography.headlineLarge,
@@ -180,6 +222,7 @@ fun LosePopUp(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     modifier = Modifier.fillMaxWidth()
                 ) {
+                    // Menu button
                     Button(
                         onClick = onMenuClick,
                         colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray)
@@ -189,6 +232,8 @@ fun LosePopUp(
                             color = Color.White
                         )
                     }
+
+                    // Retry button
                     Button(
                         onClick = onRetryClick,
                         colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
@@ -204,18 +249,30 @@ fun LosePopUp(
     }
 }
 
+/**
+ * Composable that pops up when the win condition is met
+ *
+ * Plays the win sound
+ *
+ * @param onMenuClick Callback that is called when the menu button is clicked
+ * @param onSaveClick Callback that is called when the save button is clicked
+ * @param viewModel The game's view model, needed to call the save score function
+ */
 @Composable
 fun WinPopUp(
     onMenuClick: () -> Unit,
     onSaveClick: () -> Unit,
     viewModel: GameViewModel
 ) {
+    // Name text field state tracker
     var name by remember { mutableStateOf("") }
     val context = LocalContext.current
 
+    // Play win sound
     SoundManager.playWinSound()
 
     Dialog(
+        // Undismissable
         onDismissRequest = {}
     ) {
         Surface(
@@ -227,11 +284,14 @@ fun WinPopUp(
                     .fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+                // Title
                 Text(
                     text = stringResource(R.string.win),
                     style = MaterialTheme.typography.headlineMedium,
                     color = Color.Yellow
                 )
+
+                // Name entry field, for saving score
                 TextField(
                     value = name,
                     onValueChange = { name = it },
@@ -246,10 +306,12 @@ fun WinPopUp(
                         unfocusedLabelColor = Color.White
                     )
                 )
+
                 Row(
                     horizontalArrangement = Arrangement.SpaceEvenly,
                     modifier = Modifier.fillMaxWidth()
                 ) {
+                    // Menu button
                     Button(
                         onClick = onMenuClick,
                         colors = ButtonDefaults.buttonColors(containerColor = Color.DarkGray)
@@ -259,9 +321,13 @@ fun WinPopUp(
                             color = Color.White
                         )
                     }
+
+                    // Save button
                     Button(
                         onClick = {
-                            viewModel.saveScore(context, name)
+                            // Save score first
+                            viewModel.onSaveScoreClick(context, name)
+                            // Then call the callback
                             onSaveClick()
                         },
                         colors = ButtonDefaults.buttonColors(containerColor = Color.Red)
@@ -277,6 +343,13 @@ fun WinPopUp(
     }
 }
 
+/**
+ * Composable that displays the whole minefiled, made up of squares
+ *
+ * @param grid The minefield to display
+ * @param onSquareClick Callback that is called when the square is clicked
+ * @param onClickHold Callback that is called when the square is long clicked
+ */
 @Composable
 fun GridUI(
     grid: List<List<Square>>,
@@ -286,12 +359,14 @@ fun GridUI(
     BoxWithConstraints (
         modifier = Modifier.padding(35.dp)
     ){
+        // Calculate how big the squares need to be to fill the screen horizontally
         val squareSize = minOf(maxWidth, maxHeight) / minOf(grid.size, grid[0].size)
 
         Row(
             horizontalArrangement = Arrangement.Center,
             modifier = Modifier.fillMaxWidth()
         ) {
+            // For each square in the minefield, displays a square Composable
             grid.indices.forEach { x ->
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
@@ -311,6 +386,14 @@ fun GridUI(
     }
 }
 
+/**
+ * Composable representing a single square in the minefield
+ *
+ * @param square Data class to draw from
+ * @param onClick Callback that is called when the square is clicked
+ * @param onClickHold Callback that is called when the square is long clicked
+ * @param size The size of the square in dp
+ */
 @Composable
 fun SquareUI(
     square: Square,

@@ -1,4 +1,4 @@
-package com.example.minovepole
+package com.minovepole.ui
 
 import android.content.Context
 import androidx.compose.foundation.background
@@ -10,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -20,6 +19,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,9 +31,20 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.minovepole.R
+import com.minovepole.data.DifficultyOption
+import com.minovepole.data.clearScores
+import com.minovepole.data.readScores
+import com.minovepole.logic.LeaderBoardViewModel
 
+/**
+ * A composable that displays the leaderboard screen, with selectors to filter by difficulties
+ * and a lazy column with a header to display scores
+ *
+ * @param context Application context, used to load saved scores
+ */
 @Composable
 fun LeaderBoard (
     context: Context
@@ -41,11 +53,21 @@ fun LeaderBoard (
         modifier = Modifier.fillMaxSize(),
         color = Color.LightGray
     ) {
-        var mineDifficultySelected by remember { mutableStateOf(DifficultyOption.MEDIUM) }
-        var sizeDifficultySelected by remember { mutableStateOf(DifficultyOption.MEDIUM) }
+        // The viewmodel is created before it has any scores loaded
+        val viewModel: LeaderBoardViewModel = viewModel()
+        val mineDifficultySelected by viewModel.mineDifficulty.collectAsState()
+        val sizeDifficultySelected by viewModel.sizeDifficulty.collectAsState()
 
-        var allScores by remember { mutableStateOf(readScores(context)) }
+        // On launch, load scores and supply them to the viewModel
+        LaunchedEffect(Unit) {
+            val scores = readScores(context)
+            viewModel.setScores(scores)
+        }
 
+        // View model is then observed
+        val allScores by viewModel.allScores.collectAsState()
+
+        // Scores are filtered by difficulty selections
         val selectedScores = allScores.filter {
             it.mineDifficulty == mineDifficultySelected && it.sizeDifficulty == sizeDifficultySelected
         }
@@ -58,6 +80,7 @@ fun LeaderBoard (
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.weight(1f))
+            // Title
             Text(
                 text = stringResource(R.string.leaderboard_title),
                 style = MaterialTheme.typography.headlineLarge,
@@ -65,6 +88,8 @@ fun LeaderBoard (
                 color = Color.Black
             )
             Spacer(modifier = Modifier.weight(1f))
+
+            // Mine difficulty selector
             Text(
                 text = stringResource(R.string.mine_diff),
                 style = MaterialTheme.typography.headlineSmall,
@@ -73,9 +98,11 @@ fun LeaderBoard (
             DifficultyButtons(
                 options = DifficultyOption.entries,
                 selectedOption = mineDifficultySelected,
-                onOptionSelected = { mineDifficultySelected = it }
+                onOptionSelected = viewModel::onMineDifficultyChanged
             )
             Spacer(modifier = Modifier.weight(0.5f))
+
+            // Size difficulty selector
             Text(
                 text = stringResource(R.string.size_diff),
                 style = MaterialTheme.typography.headlineSmall,
@@ -84,10 +111,11 @@ fun LeaderBoard (
             DifficultyButtons(
                 options = DifficultyOption.entries,
                 selectedOption = sizeDifficultySelected,
-                onOptionSelected = {sizeDifficultySelected = it }
+                onOptionSelected = viewModel::onSizeDifficultyChanged
             )
             Spacer(modifier = Modifier.weight(1f))
 
+            // Header
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -115,6 +143,7 @@ fun LeaderBoard (
                 )
             }
 
+            // Lazy column that displays scores, and assigns them an order
             LazyColumn (
                 modifier = Modifier.fillMaxWidth().weight(20f)
             ) {
@@ -146,15 +175,17 @@ fun LeaderBoard (
                     }
                 }
             }
+
             Row (
                 horizontalArrangement = Arrangement.Center,
                 modifier = Modifier.padding(bottom = 20.dp)
             ) {
+                // Clear scores button
                 Button(
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
                     onClick = {
                         clearScores(context)
-                        allScores = emptyList()
+                        viewModel.clearScores()
                     }
                 ) {
                     Text(text = stringResource(R.string.clear))

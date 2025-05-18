@@ -1,4 +1,4 @@
-package com.example.minovepole.ui.theme
+package com.minovepole.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
