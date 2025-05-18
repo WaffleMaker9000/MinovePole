@@ -19,6 +19,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,10 +32,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.minovepole.R
 import com.minovepole.data.DifficultyOption
 import com.minovepole.data.clearScores
 import com.minovepole.data.readScores
+import com.minovepole.logic.LeaderBoardViewModel
 
 @Composable
 fun LeaderBoard (
@@ -43,10 +47,16 @@ fun LeaderBoard (
         modifier = Modifier.fillMaxSize(),
         color = Color.LightGray
     ) {
-        var mineDifficultySelected by remember { mutableStateOf(DifficultyOption.MEDIUM) }
-        var sizeDifficultySelected by remember { mutableStateOf(DifficultyOption.MEDIUM) }
+        val viewModel: LeaderBoardViewModel = viewModel()
+        val mineDifficultySelected by viewModel.mineDifficulty.collectAsState()
+        val sizeDifficultySelected by viewModel.sizeDifficulty.collectAsState()
 
-        var allScores by remember { mutableStateOf(readScores(context)) }
+        LaunchedEffect(Unit) {
+            val scores = readScores(context)
+            viewModel.setScores(scores)
+        }
+
+        val allScores by viewModel.allScores.collectAsState()
 
         val selectedScores = allScores.filter {
             it.mineDifficulty == mineDifficultySelected && it.sizeDifficulty == sizeDifficultySelected
@@ -75,7 +85,7 @@ fun LeaderBoard (
             DifficultyButtons(
                 options = DifficultyOption.entries,
                 selectedOption = mineDifficultySelected,
-                onOptionSelected = { mineDifficultySelected = it }
+                onOptionSelected = viewModel::onMineDifficultyChanged
             )
             Spacer(modifier = Modifier.weight(0.5f))
             Text(
@@ -86,7 +96,7 @@ fun LeaderBoard (
             DifficultyButtons(
                 options = DifficultyOption.entries,
                 selectedOption = sizeDifficultySelected,
-                onOptionSelected = {sizeDifficultySelected = it }
+                onOptionSelected = viewModel::onSizeDifficultyChanged
             )
             Spacer(modifier = Modifier.weight(1f))
 
@@ -156,7 +166,7 @@ fun LeaderBoard (
                     colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
                     onClick = {
                         clearScores(context)
-                        allScores = emptyList()
+                        viewModel.clearScores()
                     }
                 ) {
                     Text(text = stringResource(R.string.clear))

@@ -1,6 +1,7 @@
 package com.minovepole.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -12,15 +13,18 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.minovepole.logic.GameViewModel
 import com.minovepole.data.DifficultyOption
+import com.minovepole.logic.DifficultySelectViewModel
 import com.minovepole.ui.DifficultyScreen
 import com.minovepole.ui.Game
 import com.minovepole.ui.LeaderBoard
 import com.minovepole.ui.MainMenu
+import kotlinx.coroutines.flow.collect
 
 @Composable
 fun AppNavGraph(navController: NavHostController) {
-    var mineDifficultySelected by remember { mutableStateOf(DifficultyOption.MEDIUM) }
-    var sizeDifficultySelected by remember { mutableStateOf(DifficultyOption.MEDIUM) }
+    val difficultySelectViewModel: DifficultySelectViewModel = viewModel()
+    val mineDifficultySelected by difficultySelectViewModel.mineDifficulty.collectAsState()
+    val sizeDifficultySelected by difficultySelectViewModel.sizeDifficulty.collectAsState()
 
     NavHost(navController = navController, startDestination = "main_menu") {
         composable("main_menu") {
@@ -37,9 +41,9 @@ fun AppNavGraph(navController: NavHostController) {
         composable("difficulty") {
             DifficultyScreen(
                 mineDifficultySelected = mineDifficultySelected,
-                onMineDifficultySelected = { mineDifficultySelected = it },
+                onMineDifficultySelected = difficultySelectViewModel::onMineDifficultyChange,
                 sizeDifficultySelected = sizeDifficultySelected,
-                onSizeDifficultySelected = { sizeDifficultySelected = it},
+                onSizeDifficultySelected = difficultySelectViewModel::onSizeDifficultyChange,
                 onConfirm = {
                     navController.navigate("game")
                 }
