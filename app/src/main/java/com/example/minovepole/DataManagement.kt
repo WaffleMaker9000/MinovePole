@@ -61,6 +61,13 @@ fun readScores(context: Context): List<Score> {
     }.sortedBy { it.time }
 }
 
+fun clearScores(context: Context) {
+    val file = File(context.filesDir, context.getString(R.string.csv))
+    if(file.exists()) {
+        file.delete()
+    }
+}
+
 fun generateTestScores(context: Context) {
     val testScores = listOf(
         Score("Gobsmasha", 20, DifficultyOption.EASY, DifficultyOption.EASY),

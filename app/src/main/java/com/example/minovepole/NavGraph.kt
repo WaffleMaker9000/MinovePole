@@ -45,12 +45,22 @@ fun AppNavGraph(navController: NavHostController) {
         }
 
         composable("game") {
-            val x = 4 + (sizeDifficultySelected.ordinal * 2)
-            val mineCount = 6 + ((mineDifficultySelected.ordinal + sizeDifficultySelected.ordinal) * 2)
-
             val viewModel: GameViewModel = viewModel()
 
-            Game(x = x, y = x * 2, mineCount = mineCount, viewModel = viewModel)
+            Game(
+                mineDiff = mineDifficultySelected.ordinal,
+                sizeDiff = sizeDifficultySelected.ordinal,
+                viewModel = viewModel,
+                onMenuClick = {
+                    navController.popBackStack()
+                    navController.popBackStack()
+                },
+                onLeaderBoardClick = {
+                    navController.popBackStack()
+                    navController.popBackStack()
+                    navController.navigate("leaderboard")
+                }
+            )
         }
     }
 }

@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -42,7 +44,7 @@ fun LeaderBoard (
         var mineDifficultySelected by remember { mutableStateOf(DifficultyOption.MEDIUM) }
         var sizeDifficultySelected by remember { mutableStateOf(DifficultyOption.MEDIUM) }
 
-        val allScores = remember { readScores(context) }
+        var allScores by remember { mutableStateOf(readScores(context)) }
 
         val selectedScores = allScores.filter {
             it.mineDifficulty == mineDifficultySelected && it.sizeDifficulty == sizeDifficultySelected
@@ -71,7 +73,7 @@ fun LeaderBoard (
             DifficultyButtons(
                 options = DifficultyOption.entries,
                 selectedOption = mineDifficultySelected,
-                onOptionSelected = {mineDifficultySelected = it }
+                onOptionSelected = { mineDifficultySelected = it }
             )
             Spacer(modifier = Modifier.weight(0.5f))
             Text(
@@ -142,6 +144,20 @@ fun LeaderBoard (
                             )
                         }
                     }
+                }
+            }
+            Row (
+                horizontalArrangement = Arrangement.Center,
+                modifier = Modifier.padding(bottom = 20.dp)
+            ) {
+                Button(
+                    colors = ButtonDefaults.buttonColors(containerColor = Color.Red),
+                    onClick = {
+                        clearScores(context)
+                        allScores = emptyList()
+                    }
+                ) {
+                    Text(text = "Clear Data")
                 }
             }
         }
