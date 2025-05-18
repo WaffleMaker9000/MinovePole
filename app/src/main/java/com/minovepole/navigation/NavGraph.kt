@@ -20,13 +20,21 @@ import com.minovepole.ui.LeaderBoard
 import com.minovepole.ui.MainMenu
 import kotlinx.coroutines.flow.collect
 
+/**
+ * Defines the navigation graph for the application
+ * using the Navigation component of Jetpack Compose.
+ *
+ * @param navController The NavHostController that manages navigation between composable screens.
+ */
 @Composable
 fun AppNavGraph(navController: NavHostController) {
+    // Shared ViewModel for difficulty selection screen
     val difficultySelectViewModel: DifficultySelectViewModel = viewModel()
     val mineDifficultySelected by difficultySelectViewModel.mineDifficulty.collectAsState()
     val sizeDifficultySelected by difficultySelectViewModel.sizeDifficulty.collectAsState()
 
     NavHost(navController = navController, startDestination = "main_menu") {
+        // Main menu screen with options to navigate to the game or leaderboard
         composable("main_menu") {
             MainMenu(
                 onPlayClick = {
@@ -38,6 +46,7 @@ fun AppNavGraph(navController: NavHostController) {
             )
         }
 
+        // Screen for selecting mine and size difficulties before launching the game
         composable("difficulty") {
             DifficultyScreen(
                 mineDifficultySelected = mineDifficultySelected,
@@ -50,10 +59,12 @@ fun AppNavGraph(navController: NavHostController) {
             )
         }
 
+        // Leaderboard screen
         composable("leaderboard") {
             LeaderBoard(context = LocalContext.current)
         }
 
+        // The game screen, uses difficulty settings selected in the difficulty screen
         composable("game") {
             val viewModel: GameViewModel = viewModel()
 
@@ -62,10 +73,12 @@ fun AppNavGraph(navController: NavHostController) {
                 sizeDiff = sizeDifficultySelected.ordinal,
                 viewModel = viewModel,
                 onMenuClick = {
+                    // Pop back to menu
                     navController.popBackStack()
                     navController.popBackStack()
                 },
                 onLeaderBoardClick = {
+                    // Pop back to menu, then go to leaderboard
                     navController.popBackStack()
                     navController.popBackStack()
                     navController.navigate("leaderboard")

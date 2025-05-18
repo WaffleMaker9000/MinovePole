@@ -25,7 +25,15 @@ import androidx.compose.ui.unit.dp
 import com.example.minovepole.R
 import com.minovepole.ui.theme.MinovePoleTheme
 
-
+/**
+ * Composable that displays the main menu screen, with buttons linking to difficulty selection
+ * and the leaderboard
+ *
+ * @param modifier Im not completely sure why i passed this here,
+ * im never passing it a modifier anyway, but im scared to break it, so ill keep it here
+ * @param onPlayClick Callback that is called when the play button is clicked
+ * @param onLeaderBoardClick Callback that is called when the leaderboard button is clicked
+ */
 @Composable
 fun MainMenu(
     modifier: Modifier = Modifier,
@@ -37,6 +45,7 @@ fun MainMenu(
             .fillMaxSize(),
         color = Color.LightGray
     ) {
+        // Used to get access to the screen width for button scaling
         BoxWithConstraints (
             modifier = Modifier.fillMaxSize()
         ) {
@@ -50,27 +59,28 @@ fun MainMenu(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(modifier = Modifier.weight(0.5f))
-
+                // Title
                 Text(
                     text = stringResource(R.string.app_title),
                     style = MaterialTheme.typography.headlineLarge,
                     fontWeight = FontWeight.Bold,
                     color = Color.Black
                 )
-
                 Spacer(modifier = Modifier.weight(0.5f))
 
+                // Image
                 Image(
                     painter = painterResource(R.drawable.logo),
                     contentDescription = "Logo",
                     modifier = Modifier.size(180.dp)
                 )
-
                 Spacer(modifier = modifier.weight(1f))
 
+                // Button row
                 Row (
                     horizontalArrangement = Arrangement.spacedBy(50.dp)
                 ) {
+                    // Start button image
                     Image(
                         painter = painterResource(R.drawable.play),
                         contentDescription = "Start Button",
@@ -78,6 +88,7 @@ fun MainMenu(
                             .size(buttonSize)
                             .clickable { onPlayClick() }
                     )
+                    // Leaderboard button image
                     Image(
                         painter = painterResource(R.drawable.leaderboard),
                         contentDescription = "Leaderboards Button",
@@ -94,6 +105,9 @@ fun MainMenu(
     }
 }
 
+/**
+ * Preview to inspect the main menu layout in Android Studio
+ */
 @Preview(showBackground = true)
 @Composable
 fun MainMenuPreview() {
