@@ -14,4 +14,18 @@
     <string name="csv">scores.csv</string>
     <string name="csv_mines">Mines</string>
     <string name="csv_size">Size</string>
+    <string name="timer">Čas</string>
+    <string name="flag">🚩</string>
+    <string name="empty">" "</string>
+    <string name="bomb">💣</string>
+    <string name="lose">Vybuchol si!</string>
+    <string name="menu">Menu</string>
+    <string name="retry">Hrať Znova</string>
+    <string name="win">Vyhral si!</string>
+    <string name="name">Tvoje meno</string>
+    <string name="save_score">Uložiť Skóre</string>
+    <string name="placed">Miesto</string>
+    <string name="player">Hráč</string>
+    <string name="time">Čas</string>
+    <string name="clear">Zmazať Dáta</string>
 </resources>
