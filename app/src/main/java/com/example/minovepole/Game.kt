@@ -157,6 +157,8 @@ fun LosePopUp(
     onMenuClick: () -> Unit,
     onRetryClick: () -> Unit
 ) {
+    SoundManager.playExplosionSound()
+
     Dialog(
         onDismissRequest = {}
     ) {
@@ -210,6 +212,8 @@ fun WinPopUp(
 ) {
     var name by remember { mutableStateOf("") }
     val context = LocalContext.current
+
+    SoundManager.playWinSound()
 
     Dialog(
         onDismissRequest = {}
