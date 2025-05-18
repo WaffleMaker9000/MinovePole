@@ -61,7 +61,7 @@ class GameViewModel : ViewModel() {
 
     private fun revealSquares(original: List<List<Square>>, x: Int, y: Int): List<List<Square>> {
         if (x !in original.indices || y !in original[0].indices) return original
-        if (original[x][y].isClicked) return original
+        if (original[x][y].isClicked || original[x][y].isFlagged) return original
         var updatedGrid = original.mapIndexed { currX, col ->
             col.mapIndexed{ currY, square ->
                 if (currX == x && currY == y) square.copy(isClicked = true) else square
