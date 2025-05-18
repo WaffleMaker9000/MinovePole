@@ -1,12 +1,14 @@
-package com.example.minovepole
+package com.minovepole.logic
 
 import android.content.Context
 import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.minovepole.data.DifficultyOption
+import com.minovepole.data.Score
+import com.minovepole.data.Square
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -94,6 +96,6 @@ class GameViewModel : ViewModel() {
             mineDifficulty = DifficultyOption.entries[_mineDiff],
             sizeDifficulty = DifficultyOption.entries[_sizeDiff]
         )
-        saveScore(context = context, score = score)
+        com.minovepole.data.saveScore(context = context, score = score)
     }
 }

@@ -1,8 +1,9 @@
-package com.example.minovepole
+package com.minovepole.sound
 
 import android.content.Context
 import android.media.AudioAttributes
 import android.media.SoundPool
+import com.example.minovepole.R
 
 object SoundManager {
     private lateinit var soundPool: SoundPool

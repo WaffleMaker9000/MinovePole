@@ -1,4 +1,4 @@
-package com.example.minovepole
+package com.minovepole.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -10,6 +10,12 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.minovepole.logic.GameViewModel
+import com.minovepole.data.DifficultyOption
+import com.minovepole.ui.DifficultyScreen
+import com.minovepole.ui.Game
+import com.minovepole.ui.LeaderBoard
+import com.minovepole.ui.MainMenu
 
 @Composable
 fun AppNavGraph(navController: NavHostController) {

@@ -1,4 +1,6 @@
-package com.example.minovepole
+package com.minovepole.logic
+
+import com.minovepole.data.Square
 
 fun generateMines(grid: List<List<Square>>, count: Int) {
     val x = grid.size

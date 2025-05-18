@@ -1,8 +1,8 @@
-package com.example.minovepole
+package com.minovepole.data
 
 import android.content.Context
 import androidx.annotation.StringRes
-import androidx.compose.ui.res.stringResource
+import com.example.minovepole.R
 import com.github.doyaaaaaken.kotlincsv.client.CsvReader
 import com.github.doyaaaaaken.kotlincsv.client.CsvWriter
 import java.io.File

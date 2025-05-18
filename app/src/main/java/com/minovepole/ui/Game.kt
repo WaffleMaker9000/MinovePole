@@ -1,4 +1,4 @@
-package com.example.minovepole
+package com.minovepole.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -23,9 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
-import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
-import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,7 +38,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
-import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.minovepole.R
+import com.minovepole.logic.GameViewModel
+import com.minovepole.sound.SoundManager
+import com.minovepole.data.Square
 
 @Preview (showBackground = true)
 @Composable

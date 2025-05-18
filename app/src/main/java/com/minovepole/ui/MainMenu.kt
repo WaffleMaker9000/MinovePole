@@ -1,4 +1,4 @@
-package com.example.minovepole
+package com.minovepole.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -22,7 +22,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.minovepole.ui.theme.MinovePoleTheme
+import com.example.minovepole.R
+import com.minovepole.ui.theme.MinovePoleTheme
 
 
 @Composable
