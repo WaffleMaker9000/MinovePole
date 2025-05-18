@@ -99,6 +99,7 @@ class GameViewModel : ViewModel() {
     }
 
     fun onClickHold(x: Int, y: Int) {
+        if (_grid.value[x][y].isClicked) return
         val updatedGrid = _grid.value.mapIndexed { currX, col ->
             col.mapIndexed{ currY, square ->
                 if (currX == x && currY == y) square.copy(isFlagged = !square.isFlagged) else square
